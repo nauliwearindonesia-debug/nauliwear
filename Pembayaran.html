@@ -581,12 +581,73 @@ const invoice = {
 
 };
 
-    localStorage.setItem(
-        "invoice",
-        JSON.stringify(invoice)
-    );
+localStorage.setItem(
+    "invoice",
+    JSON.stringify(invoice)
+);
 
-    window.location.href="struk.html";
+// Kirim notifikasi Telegram
+kirimTelegram(invoice);
+
+// Buka halaman struk
+window.location.href="struk.html";
+
+}
+function kirimTelegram(invoice){
+
+    const token="8965517480:AAFh_-lm1KEKkSXkuT_UTW6Zmam2lBVjBUs";
+    const chatId="8718851246";
+
+    let produk = "";
+
+    invoice.cart.forEach(item=>{
+
+        produk +=
+        `• ${item.nama} x${item.qty}\n`;
+
+    });
+
+    const pesan =
+`🛍️ PESANAN BARU NAULI WEAR
+
+🧾 Invoice : ${invoice.invoice}
+
+👤 Nama : ${invoice.nama}
+
+📱 WA : ${invoice.wa}
+
+📧 Email : ${invoice.email}
+
+🚚 Ekspedisi : ${invoice.ekspedisi}
+
+💳 Pembayaran : ${invoice.bayar}
+
+📦 Produk :
+${produk}
+
+💰 Total :
+Rp ${invoice.total.toLocaleString()}
+
+📍 Alamat :
+${invoice.alamat}`;
+
+    fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            chat_id:chatId,
+
+            text:pesan
+
+        })
+
+    });
 
 }
   // ======================
