@@ -1,0 +1,109 @@
+<!-- STRUK THERMAL -->
+<div id="struk" style="display:none; text-align:center; margin-top:30px;">
+
+    <div id="printArea" style="
+        width:300px;
+        background:white;
+        color:black;
+        padding:15px;
+        font-family:'Courier New', monospace;
+        font-size:12px;
+        margin:auto;
+        border:1px dashed #999;
+        border-radius:5px;
+    ">
+
+        <div id="isiStruk"></div>
+
+    </div>
+
+    <!-- Tombol Cetak -->
+    <button onclick="printStruk()" style="
+        margin-top:20px;
+        width:300px;
+        padding:12px;
+        background:black;
+        color:white;
+        border:none;
+        cursor:pointer;
+        border-radius:8px;
+    ">
+        🖨 Cetak Struk
+    </button>
+
+    <!-- Tombol Selesai -->
+    <button onclick="selesai()" style="
+        margin-top:10px;
+        width:300px;
+        padding:12px;
+        background:#28a745;
+        color:white;
+        border:none;
+        cursor:pointer;
+        border-radius:8px;
+    ">
+        ✅ Selesai
+    </button>
+
+    <!-- Tombol Kembali -->
+    <button onclick="kembaliHome()" style="
+        margin-top:10px;
+        width:300px;
+        padding:12px;
+        background:#0d6efd;
+        color:white;
+        border:none;
+        cursor:pointer;
+        border-radius:8px;
+    ">
+        🏠 Kembali ke Home
+    </button>
+
+</div>
+<script>
+
+// ======================
+// API WILAYAH
+// ======================
+
+loadProvinsi();
+
+
+// ======================
+// FUNGSI SELESAI
+// ======================
+
+function selesai(){
+
+    alert("Terima kasih telah berbelanja di Nauli Wear.");
+
+    // Menghapus data checkout
+    localStorage.removeItem("checkout");
+
+    // Menyembunyikan struk
+    document.getElementById("struk").style.display = "none";
+
+}
+
+function kembaliHome(){
+
+    // Hapus data checkout
+    localStorage.removeItem("checkout");
+
+    // Kembali ke halaman utama
+    window.location.href = "index.html";
+
+}
+
+</script>
+<button onclick="printStruk()">
+    🖨 Cetak Struk
+</button>
+
+<button onclick="selesai()">
+    ✅ Selesai
+</button>
+
+<button onclick="kembaliHome()">
+    🏠 Kembali ke Home
+</button>

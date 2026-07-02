@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nauli Wear</title>
+
+<style>
+  /* OVERLAY */
+
+#overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  z-index:999;
+  display:none;
+}
+
+/* SIDEBAR */
+
+#sidebarCart{
+  position:fixed;
+  top:0;
+  right:-420px;
+  width:400px;
+  height:100%;
+  background:white;
+  z-index:1000;
+  transition:0.4s;
+  display:flex;
+  flex-direction:column;
+  box-shadow:-10px 0 30px rgba(0,0,0,0.2);
+}
+
+#sidebarCart.active{
+  right:0;
+}
+
+#overlay.active{
+  display:block;
+}
+
+.cart-top{
+  padding:20px;
+  background:#25D366;
+  color:white;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.cart-top span{
+  cursor:pointer;
+  font-size:22px;
+}
+
+#isiKeranjang{
+  flex:1;
+  overflow:auto;
+  padding:20px;
+}
+
+.item-cart{
+  background:#f8f8f8;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:15px;
+}
+
+.item-cart h4{
+  margin-bottom:8px;
+}
+
+.qty-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+}
+
+.qty-btn{
+  width:30px;
+  height:30px;
+  border:none;
+  background:#25D366;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.hapus-btn{
+  margin-top:10px;
+  background:red;
+  color:white;
+  border:none;
+  padding:6px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.cart-bottom{
+  padding:20px;
+  border-top:1px solid #ddd;
+}
+
+.checkoutBtn{
+  width:100%;
+  padding:14px;
+  border:none;
+  background:#25D366;
+  color:white;
+  border-radius:10px;
+  font-size:16px;
+  cursor:pointer;
+  margin-top:10px;
+}
+  /* SIDEBAR CART */
+
+.sidebar-cart{
+  position:fixed;
+  top:0;
+  right:-400px;
+  width:350px;
+  height:100%;
+  background:white;
+  z-index:9999;
+  box-shadow:-5px 0 20px rgba(0,0,0,0.3);
+  transition:0.4s;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar-cart.active{
+  right:0;
+}
+
+.cart-header{
+  display:flex;
+  justify-content:space-between;
+  padding:20px;
+  background:#111;
+  color:white;
+}
+
+.cart-header span{
+  cursor:pointer;
+  font-size:20px;
+}
+
+#isiKeranjang{
+  flex:1;
+  overflow:auto;
+  padding:20px;
+}
+
+.item-cart{
+  margin-bottom:15px;
+  padding-bottom:10px;
+  border-bottom:1px solid #ddd;
+}
+
+.cart-footer{
+  padding:20px;
+  border-top:1px solid #ddd;
+}
+
+.checkout-btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  background:#25D366;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+.hapus-btn{
+  background:red;
+  color:white;
+  border:none;
+  padding:5px 10px;
+  border-radius:5px;
+  margin-top:5px;
+  cursor:pointer;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+.card:hover {
+  transform: translateY(-10px);
+  background: #77237a; /* warna saat disentuh */
+  color: white;
+}
+.contact-box {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: auto;
+  text-align: center;
+}
+
+.contact-box p {
+  margin: 8px 0;
+}
+body {
+  background: #f4f4f4;
+}
+
+/* NAVBAR */
+nav {
+  background: #b4aeae;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 40px;
+  position: sticky;
+  top: 0;
+}
+
+nav h2 {
+  color: #fcfffe;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav ul li {
+  cursor: pointer;
+}
+
+/* HERO */
+.hero {
+  height: 80vh;
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+              url('p1.jpeg');
+  background-size: cover;
+  background-position: center;
+  color: rgb(236, 232, 232);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 50px;
+}
+
+.hero h1 {
+  font-size: 50px;
+}
+
+.hero p {
+  margin: 10px 0;
+}
+
+.hero button {
+  width: 150px;
+  padding: 10px;
+  border: none;
+  background: #00ffcc;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* PRODUK */
+.container {
+  padding: 40px;
+  background: #4d2525;
+  border-radius: 15px;
+  margin: 20px;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+nav ul li a {
+  color: rgb(7, 6, 6);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+.price {
+  color: rgb(18, 19, 18);
+  font-weight: bold;
+  margin: 10px 0;
+}
+/* efek hover (saat disentuh mouse) */
+nav ul li a:hover {
+  background: #25D366;
+  color: white;
+}
+
+/* menu aktif (contoh: Home) */
+.active {
+  background: #00ffcc;
+  color: black;
+}
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 15px;
+  text-align: center;
+}
+
+.price {
+  color: green;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.btn {
+  background: #25D366;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #1ebe5d;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: #111;
+  color: white;
+  margin-top: 40px;
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <h2>Nauli Wear</h2>
+
+  <ul>
+    <li><a href="Index.html">Home</a></li>
+    <li><a href="#produk">Produk</a></li>
+    <li><a href="#kontak">Kontak</a></li>
+  </ul>
+
+  <!-- KOLOM PENCARIAN --><button onclick="bukaKeranjang()" style="
+  background:#25D366;
+  border:none;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+  color:white;
+">
+ 🛒 Keranjang (<span id="jumlahCart">0</span>)
+</button>
+  <input type="text" id="searchInput" placeholder="Cari produk..." onkeyup="cariProduk()">
+</nav>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Style Keren, Harga Santai</h1>
+  <p>Temukan outfit terbaikmu di sini</p>
+  <button onclick="scrollProduk()">Belanja Sekarang</button>
+</section>
+
+<!-- PRODUK -->
+<div class="container" id="produk">
+
+  <h2>Semua Produk</h2>
+  <br>
+
+  <div class="products">
+
+   <div class="card">
+    <img src="p1.jpeg">
+
+    <div class="card-body">
+
+        <h3>Dres</h3>
+
+        <p class="price">Rp 350.000</p>
+
+        <p>
+            📦 Stok :
+            <span id="stok-dasi">2</span>
+        </p>
+
+        <button
+            id="btn-dasi"
+            class="btn"
+            onclick="tambahKeranjang('Dasi Kupu-Kupu',350000,'stok-dasi','btn-dasi')">
+
+            Tambah ke Keranjang
+
+        </button>
+
+    </div>
+
+</div>
+<div class="card">
+    <img src="baju.jpeg">
+
+    <div class="card-body">
+
+        <h3>Baju Anak-anak</h3>
+
+        <p id="harga-baju" class="price">
+            Rp 27.000
+        </p>
+
+        <p>
+            📦 Stok :
+            <span id="stok-baju">2</span>
+        </p>
+
+        <label><b>Pilih Ukuran</b></label>
+
+        <select id="ukuran-baju" onchange="ubahHargaBaju()">
+            <option value="K">K - Rp27.000</option>
+            <option value="O">O - Rp28.000</option>
+            <option value="S">S - Rp29.000</option>
+            <option value="M">M - Rp33.000</option>
+            <option value="L">L - Rp35.000</option>
+            <option value="RMJ">RMJ - Rp38.000</option>
+        </select>
+
+        <br><br>
+
+        <button
+            id="btn-baju"
+            class="btn"
+            onclick="tambahKeranjangBaju()">
+
+            Tambah ke Keranjang
+
+        </button>
+
+    </div>
+
+</div>
+<div class="card">
+    <img src="p2.jpeg">
+
+    <div class="card-body">
+
+        <h3>Dasi Kupu-Kupu</h3>
+
+        <p class="price">Rp 75.000</p>
+
+        <p>
+            📦 Stok :
+            <span id="stok-dasi">2</span>
+        </p>
+
+        <button
+            id="btn-dasi"
+            class="btn"
+            onclick="tambahKeranjang('Dasi Kupu-Kupu',75000,'stok-dasi','btn-dasi')">
+
+            Tambah ke Keranjang
+
+        </button>
+
+    </div>
+
+</div>
+<div class="card">
+    <img src="a.jpeg">
+
+    <div class="card-body">
+
+        <h3>Bando Cantik</h3>
+
+        <p class="price">Rp 15.000</p>
+
+        <p>
+            📦 Stok :
+            <span id="stok-dasi">5</span>
+        </p>
+
+        <button
+            id="btn-dasi"
+            class="btn"
+            onclick="tambahKeranjang('Dasi Kupu-Kupu',15000,'stok-dasi','btn-dasi')">
+
+            Tambah ke Keranjang
+
+        </button>
+
+    </div>
+
+</div>
+<div class="card">
+    <img src="p4.jpeg">
+
+    <div class="card-body">
+
+        <h3>Poutc</h3>
+
+        <p class="price">Rp 30.000</p>
+
+        <p>
+            📦 Stok :
+            <span id="stok-dasi">0</span>
+        </p>
+
+        <button
+            id="btn-dasi"
+            class="btn"
+            onclick="tambahKeranjang('Dasi Kupu-Kupu',0,'stok-dasi','btn-dasi')">
+
+            Tambah ke Keranjang
+
+        </button>
+
+    </div>
+
+</div>
+<div class="card">
+    <img src="p5.jpeg">
+
+    <div class="card-body">
+
+        <h3>Tote Bag</h3>
+
+        <p class="price">Rp 50.000</p>
+
+        <p>
+            📦 Stok :
+            <span id="tote bag">0</span>
+        </p>
+
+        <button
+            id="btn-dasi"
+            class="btn"
+            onclick="tambahKeranjang('tote bag',0,'stok-dasi','btn-dasi')">
+
+            Tambah ke Keranjang
+
+        </button>
+
+    </div>
+
+</div>
+<div class="card">
+    <img src="p6.jpeg">
+
+    <div class="card-body">
+
+        <h3>Masker Kain</h3>
+
+        <p class="price">Rp 20.000</p>
+
+        <p>
+            📦 Stok :
+            <span id="marker kain">0</span>
+        </p>
+
+        <button
+            id="btn-dasi"
+            class="btn"
+            onclick="tambahKeranjang('masker kain',0,'stok-dasi','btn-dasi')">
+
+            Tambah ke Keranjang
+
+        </button>
+
+    </div>
+
+</div>
+<div class="card">
+    <img src="P12.jpeg">
+
+    <div class="card-body">
+
+        <h3>Kotak Pensil</h3>
+
+        <p class="price">Rp 30.000</p>
+
+        <p>
+            📦 Stok :
+            <span id="stok-kotak Pensil">0</span>
+        </p>
+
+        <button
+            id="btn-dasi"
+            class="btn"
+            onclick="tambahKeranjang('Kotak Pensil',0,'stok-kotak pensil','btn-dasi')">
+
+            Tambah ke Keranjang
+
+        </button>
+
+    </div>
+
+</div>
+<div class="card">
+    <img src="p7.jpeg">
+
+    <div class="card-body">
+
+        <h3>SAKU JAS</h3>
+
+        <p class="price">Rp 40.000</p>
+
+        <p>
+            📦 Stok :
+            <span id="stok-dasi">0 (HABIS)</span>
+        </p>
+
+        <button
+            id="btn-dasi"
+            class="btn"
+            onclick="tambahKeranjang('SAKU JAS',0,'stok-dasi','btn-SAKU JAS')">
+
+            Tambah ke Keranjang
+
+        </button>
+
+    </div>
+
+</div>
+<div class="container" id="kontak">
+  <h2 style="color:white;">Kontak Kami</h2>
+  <br>
+
+  <div class="contact-box">
+    <p><strong>Nama Toko:</strong> Nauli Wear</p>
+    <p><strong>Alamat:</strong> Medan, Sumatera Utara</p>
+    <p><strong>WhatsApp:</strong> 0812-3456-7890</p>
+    <p><strong>Email:</strong> nauliwear@gmail.com</p>
+    <p><strong>Instagram:</strong> @nauliwear</p>
+
+    <br>
+    <button class="btn" onclick="hubungiWA()">Hubungi Kami</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Nauli Wear - All Rights Reserved</p>
+</footer><script>
+
+let keranjang =
+JSON.parse(localStorage.getItem("keranjang")) || [];
+
+const hargaUkuran = {
+
+    K:27000,
+    O:28000,
+    S:29000,
+    M:33000,
+    L:35000,
+    RMJ:38000
+
+};
+
+function ubahHargaBaju(){
+
+    let ukuran =
+    document.getElementById("ukuran-baju").value;
+
+    document.getElementById("harga-baju").innerHTML =
+    "Rp " + hargaUkuran[ukuran].toLocaleString();
+
+}
+// TAMBAH PRODUK
+function tambahKeranjang(nama, harga){
+
+  const existing =
+  keranjang.find(item => item.nama === nama);
+
+  if(existing){
+
+    existing.qty++;
+
+  } else {
+
+    keranjang.push({
+      nama:nama,
+      harga:harga,
+      qty:1
+    });
+
+  }
+
+  simpanCart();
+
+  alert("Produk masuk ke keranjang 🛒");
+
+}
+
+
+// BUKA SIDEBAR
+function bukaKeranjang(){
+
+  document
+    .getElementById("sidebarCart")
+    .classList.add("active");
+
+  document
+    .getElementById("overlay")
+    .classList.add("active");
+
+  tampilKeranjang();
+
+}
+
+
+// TUTUP SIDEBAR
+function tutupKeranjang(){
+
+  document
+    .getElementById("sidebarCart")
+    .classList.remove("active");
+
+  document
+    .getElementById("overlay")
+    .classList.remove("active");
+
+}
+
+
+// TAMPILKAN KERANJANG
+function tampilKeranjang(){
+
+  const isi =
+  document.getElementById("isiKeranjang");
+
+  isi.innerHTML = "";
+
+  let total = 0;
+
+  keranjang.forEach((item,index)=>{
+
+    total += item.harga * item.qty;
+
+    isi.innerHTML += `
+
+      <div class="item-cart">
+
+        <h4>${item.nama}</h4>
+
+        <p>
+          Rp ${item.harga.toLocaleString()}
+        </p>
+
+        <div class="qty-box">
+
+          <button
+            class="qty-btn"
+            onclick="kurangQty(${index})">
+            -
+          </button>
+
+          <span>${item.qty}</span>
+
+          <button
+            class="qty-btn"
+            onclick="tambahQty(${index})">
+            +
+          </button>
+
+        </div>
+
+        <button
+          class="hapus-btn"
+          onclick="hapusItem(${index})">
+          Hapus
+        </button>
+
+      </div>
+
+    `;
+
+  });
+
+  document.getElementById("totalHarga")
+  .innerText =
+  "Total: Rp " + total.toLocaleString();
+
+}
+
+function tambahKeranjangBaju(){
+
+    let ukuran =
+    document.getElementById("ukuran-baju").value;
+
+    let harga =
+    hargaUkuran[ukuran];
+
+    let stok =
+    document.getElementById("stok-baju");
+
+    let jumlah =
+    parseInt(stok.innerHTML);
+
+    if(jumlah<=0){
+
+        alert("Stok habis");
+
+        return;
+
+    }
+
+    stok.innerHTML = jumlah-1;
+
+    keranjang.push({
+
+        nama:"Baju Anak-anak",
+
+        ukuran:ukuran,
+
+        harga:harga,
+
+        qty:1
+
+    });
+
+    simpanCart();
+
+    alert(
+        "Baju ukuran "+ukuran+
+        " berhasil ditambahkan."
+    );
+
+}
+// TAMBAH QTY
+function tambahQty(index){
+
+  keranjang[index].qty++;
+
+  simpanCart();
+
+}
+
+
+// KURANG QTY
+function kurangQty(index){
+
+  if(keranjang[index].qty > 1){
+
+    keranjang[index].qty--;
+
+  } else {
+
+    keranjang.splice(index,1);
+
+  }
+
+  simpanCart();
+
+}
+
+
+// HAPUS ITEM
+function hapusItem(index){
+
+  keranjang.splice(index,1);
+
+  simpanCart();
+
+}
+
+
+// SIMPAN CART
+function simpanCart(){
+
+  localStorage.setItem(
+    "keranjang",
+    JSON.stringify(keranjang)
+  );
+
+  updateCart();
+
+  tampilKeranjang();
+
+}
+
+
+// UPDATE ANGKA KERANJANG
+function updateCart(){
+
+  let totalItem = 0;
+
+  keranjang.forEach(item=>{
+
+    totalItem += item.qty;
+
+  });
+
+  document.getElementById("jumlahCart")
+  .innerText = totalItem;
+
+}
+
+
+// CHECKOUT
+function checkout(){
+
+  localStorage.setItem(
+    "checkout",
+    JSON.stringify(keranjang)
+  );
+
+  window.location.href =
+  "Pembayaran.html";
+
+}
+
+
+// JALANKAN SAAT WEB DIBUKA
+updateCart();
+
+</script>
+<!-- OVERLAY -->
+<div id="overlay" onclick="tutupKeranjang()"></div>
+
+<!-- SIDEBAR CART -->
+<div id="sidebarCart">
+
+  <div class="cart-top">
+
+    <h2>🛒 Keranjang</h2>
+
+    <span onclick="tutupKeranjang()">✖</span>
+
+  </div>
+
+  <div id="isiKeranjang"></div>
+
+  <div class="cart-bottom">
+
+    <h3 id="totalHarga">
+      Total: Rp 0
+    </h3>
+
+    <button onclick="checkout()" class="checkoutBtn">
+      Checkout Sekarang
+    </button>
+
+  </div>
+
+</div>
+</body>
+</div>
+
+  <div class="cart-header">
+    <h3>Keranjang Belanja</h3>
+    <span onclick="tutupKeranjang()">✖</span>
+  </div>
+
+  <div id="isiKeranjang"></div>
+
+  <div class="cart-footer">
+    <h3 id="totalHarga">Total: Rp 0</h3>
+
+    <button class="checkout-btn" onclick="checkout()">
+      Checkout
+    </button>
+  </div>
+
+</div>
+</html>
